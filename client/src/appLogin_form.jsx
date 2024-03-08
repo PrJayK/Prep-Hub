@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import Login_signup from './Components/LoginSignup/Login_signup.jsx';
+import Login_signup from './LoginSignup/Login_signup.jsx';
 
 function App() {
   return (
