@@ -9,10 +9,6 @@ router.get('/', (req, res) => {
 router.use('/login', loginRouter);
 
 router.use('/dashboard', (req, res) => {
-    if(!(req.session && req.session.passport)) {
-        res.sendStatus(401);
-    }
-
     const user = req.session.passport.user;
     res.send("Welcome! " + user.displayName);
 });
