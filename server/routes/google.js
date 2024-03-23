@@ -19,13 +19,12 @@ passport.use(new GoogleStrategy({
     passReqToCallback: true
 	},
 	async (req, accessToken, refreshToken, profile, done) => {
-        console.log(profile);
         const existingUser = await UserGoogle.findOne({profile_id: profile.id});
-        console.log(existingUser);
         if(!existingUser) {
             await UserGoogle.create({
                 profile_id: profile.id,
-                name: profile.displayName
+                name: profile.displayName,
+                enrolledCourses: []
             });
         }
         return done(null, profile);

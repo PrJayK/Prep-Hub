@@ -10,8 +10,6 @@ body{
   min-height: 100vh;
   width: 100%;
   background: url("../assets/bgimage.jpg");
-  /* filter: blur(8px);
-  -webkit-filter: blur(8px); */
   background-size: cover;
   background-position: center bottom right;
   background-repeat: no-repeat;
@@ -27,25 +25,10 @@ body{
   border-radius: 7px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.3);
 }
-.container .registration{
-  display: none;
-}
-/* #check:checked ~ .registration{
-  display: block;
-}
-#check:checked ~ .login{
-  display: none;
-}
-#check{
-  display: none;
-} */
 .container .show {
     display: block;
   }
-  
-  .container .hide {
-    display: none;
-  }
+
 .container .form{
   padding: 2rem;
 }
@@ -156,12 +139,12 @@ body{
     height: 30px;
     border: none;
     color: white;
-    background-color: blue;
+    background-color: #009579;
     border-radius: 8px;
   }
   .extbutton:hover{
     cursor: pointer;
-    background-color: black;
+    background-color: #42b5e2;
     transition-delay: 40ms;
 
   }

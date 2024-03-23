@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    display: block;
+}
+.hide{
+    display: none;
+}
+.enrolled{
+    display: inline-block;
+    width: 20%;
+    border-right: 1px solid darkgrey;
+    height: 88vh;
+    vertical-align: top;
+    overflow-x: hidden;
+}
+.text{
+    padding: 1rem;
+}
+.enrolled-text{
+    display: flex;
+    border-bottom: 1px solid darkgrey;
+    height: 3.5rem;
+}
+.enrolled-text *{
+    margin: 1rem 0 1rem 1rem;
+}
+.school-hat{
+    height: 1.5rem;
+    width: 1.5rem;
+    opacity: 70%;
+}
+.enrolled-list{
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+}
+.enrolled-list-item{
+    display: flex;
+    cursor: pointer;
+    border-top-right-radius: 1.5em;
+    border-bottom-right-radius: 1.5em;
+    border-style: none;
+    padding: 1em 0 1em 3em;
+}
+.enrolled-list *:hover {
+    background-color: lightgrey;
+}
+.lib-books-logo{
+    height: 1.5em;
+    width: 1.5em;
+    opacity: 70%;
+    margin: 0 1em 0 0;
+}

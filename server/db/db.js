@@ -1,22 +1,13 @@
 const mongoose = require('mongoose');
 
-
 console.log("Connecting to the Database");
-// Connect to MongoDB
-mongoose.connect('mongodb+srv://prajwal:VSu18jbY4dzRgTAZ@learn-test.qjtlyhm.mongodb.net/Prep-Hub')
+
+const mongoUrl = process.env.mongoUrl;
+
+mongoose.connect(mongoUrl)
     .then( () => {
         console.log("Connected!");
         });
-
-const UserSchema = new mongoose.Schema({
-    email: String,
-    password: String,
-    name: String,   
-    enrolledCourses: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Course'
-    }]
-});
 
 const GoogleUserSchema = new mongoose.Schema({
     profile_id: {
@@ -28,28 +19,57 @@ const GoogleUserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    enrolledCourses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course'
+    }]
 });
 
 const CourseSchema = new mongoose.Schema({
+    id: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true
     },
-    PYQs: {
-        type: [String]
-    },
-    imageLink: {
-        type: String
-    }
-
+    PYQs: [{
+        dataType: {
+            type: String,
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        linkToAWS: {
+            type: String,
+            required: true
+        }
+    }],
+    resources: [{
+        dataType: {
+            type: String,
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        linkTOAWS: {
+            type: String,
+            required: true
+        }
+    }]
 })
 
-const User = mongoose.model('User', UserSchema);
+
 const UserGoogle = mongoose.model('UserGoogle', GoogleUserSchema);
 const Course = mongoose.model('Course', CourseSchema);
 
 module.exports = {
-    User,
     UserGoogle,
-    Course
+    Course,
+    mongoUrl
 };

@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    display: block;
+}
+.hide{
+    display: none;
+}
+.navbar{
+    display: flex;
+    padding: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid lightgrey;
+}
+.nav-item-left{
+    margin: 0 1rem 0 0;
+}
+.nav-item-right{
+    margin: 0 0 0 1rem;
+}
+.nav-left{
+    display: flex;
+    align-items: center;
+}
+.nav-right{
+    display: flex;
+    align-items: center;
+}
+.logo{
+    height: 1.5rem;
+    width: 1.5rem;
+    cursor: pointer;
+}
+.logo-text{
+    cursor: pointer;
+}
+.login-btn{
+    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+    background-color: #b6b6b6;
+    border-radius: 8px;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-style: none;
+    color: #FFFFFF;
+}
+.enrolled{
+    display: inline-block;
+    width: 20%;
+    border-right: 1px solid darkgrey;
+    height: 88vh;
+    vertical-align: top;
+    overflow-x: hidden;
+}
+.text{
+    padding: 1rem;
+}
+.enrolled-text{
+    display: flex;
+    border-bottom: 1px solid darkgrey;
+}
+.enrolled-text *{
+    margin: 1rem 0 1rem 1rem;
+}
+.school-hat{
+    height: 1.5rem;
+    width: 1.5rem;
+    opacity: 70%;
+}
+.enrolled-list{
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+}
+.enrolled-list-item{
+    display: flex;
+    cursor: pointer;
+    border-top-right-radius: 1.5em;
+    border-bottom-right-radius: 1.5em;
+    border-style: none;
+    padding: 1em 0 1em 3em;
+}
+.enrolled-list *:hover {
+    background-color: lightgrey;
+}
+.lib-books-logo{
+    height: 1.5em;
+    width: 1.5em;
+    opacity: 70%;
+    margin: 0 1em 0 0;
+}
+.enrolled-content{
+    display: inline-block;
+    width: 80%;
+    vertical-align: top;
+}
+.content-controller{
+    height: 3.5rem;
+    border-bottom: 1px solid darkgrey;
+    display: flex;
+    align-items: stretch;
+    align-content: stretch;
+    justify-content: flex-start;
+}
+.content-controller *{
+    display: flex;
+    align-items: center;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+.content-controller *:hover{
+    background-color: lightgrey;
+}
+.pyqs-container{
+    box-sizing: border-box;
+}
+.banner{
+    background-image: url("./banner.jpg");
+    width: 100%;
+    height: 15em;
+    margin: 1em;
+    border-radius: 8px;
+}
+.pyqs-container .aside{
+    display: inline-block;
+    width: 25%;
+}
+.pyqs{
+    display: inline-block;
+    width: 75%;
+}
+.document{
+    display: flex;
+    padding: 1em;
+    margin: 1em 1em 1em;
+    border: 1px solid darkgrey;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.document .document-icon{
+    margin: 0 1em 0 0;
+}
+.document:hover{
+    background-color: lightgrey;
+}
+.document-logo{
+    height: 1.5rem;
+    width: 1.5rem;
+    opacity: 70%;
+}
+.banner{
+    background-image: url("./banner.jpg");
+    width: 100%;
+    height: 15em;
+    margin: 1em;
+    border-radius: 8px;
+}
+.resources-container .aside{
+    display: inline-block;
+    width: 25%;
+}
+.resources{
+    display: inline-block;
+    width: 75%;
+}
+.resource-text{
+    display: flex;
+    flex-direction: column;
+    margin: 1em 1em 1em;
+    border: 1px solid darkgrey;
+    border-radius: 8px;
+    cursor: pointer;
+    overflow: hidden;
+}
+.text-header{
+    display: flex;
+    border-bottom: 1px solid darkgrey;
+    padding: 1em;
+}
+.text-header > *{
+    padding-right: 1em;
+}
+.text-logo{
+    height: 1.5rem;
+    width: 1.5rem;
+    opacity: 70%;
+}
+.add-course{
+    display: inline-block;
+    width: 80%;
+}
+.add-course > .inputs{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1em;
+    border-bottom: 1px solid darkgrey;
+}
+.inputs > *{
+    margin-right: 1em;
+}
+.inputs > .course-name{
+    padding: 1em;
+    border-radius: 8px;
+    border: 1px solid darkgrey;
+    width: 50%;
+}
+.filters{
+    display: flex;
+    align-items: center;
+}
+.filters > *{
+    margin-right: 1em;
+}
+.filters > .semester{
+    width: 25%;
+    border: 1px solid darkgrey;
+    padding: 1em;
+    border-radius: 8px;
+}
+.filters > .branch{
+    width: 75%;
+    border: 1px solid darkgrey;
+    padding: 1em;
+    border-radius: 8px;
+}
+.course-queries{
+    display: flex;
+    flex-wrap: wrap;
+}
+.queried-course{
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid darkgrey;
+    height: 10em;
+    width: 18em;
+    margin: 1em;
+    font-size: 0.9em;
+}
+.queried-course:hover{
+    background-color: lightgrey;
+}
+.course-info-header{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 3.5em;
+    padding : 1em;
+    border-bottom: 1px solid darkgrey;
+}
+.course-info-footer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 1em;
+    overflow: auto;
+}
