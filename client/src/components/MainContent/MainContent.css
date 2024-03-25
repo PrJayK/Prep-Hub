@@ -5,13 +5,26 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-.hide{
-    display: none;
+.noEnrolledCourses{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    height: 100%;
+}
+.noEnrolledCourses > .header-text{
+    font-size: 2.5em;
+    opacity: 50%;
+}
+.noEnrolledCourses > .footer-text{
+    opacity: 50%;
 }
 .enrolled-content{
     display: inline-block;
     width: 80%;
     vertical-align: top;
+    height: 88vh;
 }
 .content-controller{
     height: 3.5rem;

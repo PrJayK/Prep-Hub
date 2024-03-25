@@ -47,7 +47,7 @@ const Dashboard = (args) => {
             
             <div className="main-container">
                 <EnrolledPane selectedCourse={selectedCourse} setSelectedCourse={setSelectedCourse} setAddCoursesButton={setAddCoursesButton} enrolledCourses={enrolledCourses}/>
-                <MainContent addCoursesButton={addCoursesButton} selectedCourse={selectedCourse} enrolledCourses={enrolledCourses}/>
+                <MainContent addCoursesButton={addCoursesButton} selectedCourse={selectedCourse} enrolledCourses={enrolledCourses} setEnrolledCourses={setEnrolledCourses} />
             </div>
         </>
     );

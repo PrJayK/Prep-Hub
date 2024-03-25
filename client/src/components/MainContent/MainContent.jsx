@@ -27,11 +27,24 @@ const MainContent = (args) => {
         <>
         {args.addCoursesButton ?
             <>
-                <AddCoursePane />
+                <AddCoursePane setEnrolledCourses={args.setEnrolledCourses} enrolledCourses={args.enrolledCourses} />
             </>
             :
             <>
                 <div className="enrolled-content">
+                    {args.enrolledCourses.length == 0 ? 
+                    <>
+                        {
+                            <div className="noEnrolledCourses">
+                                <div className="header-text">
+                                    You have not enrolled in any course
+                                </div>
+                                <div className="footer-text">
+                                    Enroll in a course now to access resources
+                                </div>
+                            </div>
+                        }
+                    </> : <></>}
                     {args.selectedCourse ?
                     <>
                         <div className="content-controller">    

@@ -30,16 +30,22 @@ const AddCoursePane = (args) => {
         });
     }, [courseQuery]);
 
-    const handleAddCourseButtonOnClick = (courseId) => {
-        axios.post('/addToEnrolledCourses', {
-            courseId: courseId
+    const handleAddCourseButtonOnClick = (_id) => {
+        axios.post('http://localhost:3000/api/addToEnrolledCourses', {
+            _id: _id
         },{
             withCredentials: true
         })
         .then((res) => {
-            
+            if(res.data.message == "Course already enrolled in.") {
+                alert("Course already enrolled in.");
+            } else {
+                args.setEnrolledCourses([...args.enrolledCourses, res.data]);
+                alert("Course added!");
+            }
         })
         .catch((err) => {
+            console.log(err);
             alert("An error occured. Couldn't complete request.");
         });
     }
@@ -118,7 +124,7 @@ const AddCoursePane = (args) => {
                                             {course.id}
                                         </div>
                                     </div>
-                                    <div className="add-course-btn" onClick={() => handleAddCourseButtonOnClick(course.id)}>
+                                    <div className="add-course-btn" onClick={() => handleAddCourseButtonOnClick(course._id)}>
                                         <img src={add} alt="" />
                                     </div>
                                 </div>
