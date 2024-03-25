@@ -4,7 +4,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    display: block;
 }
 .hide{
     display: none;
@@ -45,7 +44,7 @@
 .add-courses:hover{
     background-color: lightgrey;
 }
-.login-btn{
+.logout-btn{
     padding: 0.2rem 0.5rem 0.2rem 0.5rem;
     background-color: #b6b6b6;
     border-radius: 8px;

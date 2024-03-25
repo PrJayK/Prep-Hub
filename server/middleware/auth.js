@@ -1,6 +1,6 @@
 function isLoggedIn(req, res, next) {
     if(!(req.session && req.session.passport)) {
-        res.sendStatus(401);
+        res.status(401).redirect('/login');
     } else {
         next();
     }

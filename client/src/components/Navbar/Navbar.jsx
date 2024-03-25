@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import axios from "axios"
+
 import logo from "../../assets/logo.jpg";
 import add from "../../assets/add.svg";
 
 import "./Navbar.css";
+import { Link } from "react-router-dom";
 
 const Navbar = (args) => {
 
-    const handleAddCoursesButtonOnClick = (event) => {
+    const handleAddCoursesButtonOnClick = () => {
         args.setAddCoursesButton(true);
     }
+
     
+    const handleLogout = async () => {
+        window.location.href = '/logout'
+    }
+
     return (
         <>
             <div className="navbar">
@@ -28,7 +35,7 @@ const Navbar = (args) => {
                         <img src={add} alt="" />
                     </div>
                     <div className="nav-item-right">
-                        <button className="login-btn">{args.isLoggedIn ? "Logout" : "Logout" }</button>
+                        <button className="logout-btn" onClick={handleLogout}>Logout</button>
                     </div>
                 </div>
             </div>

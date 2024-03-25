@@ -61,7 +61,15 @@ const CourseSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+    branch: [{
+        type: String,
+        required: true
+    }],
+    semester: {
+        type: Number,
+        required: true
+    }
 })
 
 

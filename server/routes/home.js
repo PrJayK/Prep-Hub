@@ -2,17 +2,16 @@ const router = require('express').Router();
 const { isLoggedIn } = require('../middleware/auth');
 const loginRouter = require('./login');
 const apiRouter = require('./api');
+const path = require('path');
 
 router.get('/', (req, res) => {
-    console.log(req);
-    res.send("You've reached the home page!");
+    res.redirect('/dashboard');
 });
 
 router.use('/login', loginRouter);
 
 router.use('/dashboard', isLoggedIn, (req, res) => {
-    const user = req.session.passport.user;
-    res.send("Welcome! " + user.displayName);
+    res.sendFile(path.join(__dirname, '../../', 'client', 'dist', 'index.html'));
 });
 
 router.use('/api', apiRouter);
@@ -23,7 +22,7 @@ router.get('/logout', (req, res) => {
             console.error('Error destroying session:', err);
             return res.status(500).send('Error logging out');
         }
-        res.redirect('/login');
+        return res.redirect('/login/google');
     });
 });
 

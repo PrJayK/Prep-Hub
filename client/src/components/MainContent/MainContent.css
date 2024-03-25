@@ -4,7 +4,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    display: block;
 }
 .hide{
     display: none;
@@ -61,19 +60,18 @@
 }
 .document{
     display: flex;
+    align-items: center;
     padding: 1em;
     margin: 1em 1em 1em;
     border: 1px solid darkgrey;
     border-radius: 8px;
     cursor: pointer;
 }
-.document .document-icon{
-    margin: 0 1em 0 0;
-}
 .document:hover{
     background-color: lightgrey;
 }
 .document-logo{
+    margin: 0 1em 0 0;
     height: 1.5rem;
     width: 1.5rem;
     opacity: 70%;
@@ -95,15 +93,16 @@
     cursor: pointer;
     overflow: hidden;
 }
+.resource-text:hover{
+    background-color: lightgrey;
+}
 .text-header{
     display: flex;
     border-bottom: 1px solid darkgrey;
     padding: 1em;
 }
-.text-header > *{
-    padding-right: 1em;
-}
 .text-logo{
+    margin-right: 1em;
     height: 1.5rem;
     width: 1.5rem;
     opacity: 70%;

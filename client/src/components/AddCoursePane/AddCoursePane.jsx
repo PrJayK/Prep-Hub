@@ -1,34 +1,88 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 import "./AddCoursePane.css";
 
 import lib_books from "../../assets/lib-books.svg"
 import add from "../../assets/add.svg";
 
-const Dashboard = (args) => {
+const AddCoursePane = (args) => {
+
+    const [queriedCourses, setQueriedCourses] = useState([]);
+    const [courseQuery, setCourseQuery] = useState({
+        course_query: "",
+        branch: "",
+        semester: ""
+    });
+    const [courseQueryTimeoutId, setcourseQueryTimeoutId] = useState(null);
+    
+    useEffect(() => {
+        axios.post('http://localhost:3000/api/queryCourses', {
+            course_query: courseQuery.course_query,
+            branch: courseQuery.branch,
+            semester: courseQuery.semester
+        }, { withCredentials: true })
+        .then((res) => {
+            setQueriedCourses(res.data);
+        })
+        .catch((err) => {
+            alert("An error occured. Couldn't query for courses.");
+        });
+    }, [courseQuery]);
 
     const handleAddCourseButtonOnClick = (courseId) => {
-        //make the backend call to add the course
+        axios.post('/addToEnrolledCourses', {
+            courseId: courseId
+        },{
+            withCredentials: true
+        })
+        .then((res) => {
+            
+        })
+        .catch((err) => {
+            alert("An error occured. Couldn't complete request.");
+        });
     }
 
-    function handleInputChange() {
-
+    function handleSemesterChange(event) {
+        setCourseQuery({
+            ...courseQuery,
+            semester: event.target.value
+        });
     }
 
-    function handleCourseNameInputChange() {
-
+    function handleBranchChange(event) {
+        setCourseQuery({
+            ...courseQuery,
+            branch: event.target.value
+        });
     }
+
+    function handleCourseQueryChange(event) {
+        debounceCourseQuery(() => {
+            setCourseQuery({
+                ...courseQuery,
+                course_query: event.target.value
+            });
+        }, 700);
+    }
+
+    const debounceCourseQuery = (func, delay) => {
+        clearTimeout(courseQueryTimeoutId);
+        const id = setTimeout(func, delay);
+        setcourseQueryTimeoutId(id);
+    };
     
     return (
         <>
             <div className="add-course">
                 <div className="inputs">
-                    <input className="course-name" type="text" name="course-name" id="course-name" placeholder="Search for a course" onChange={handleCourseNameInputChange}/>
+                    <input className="course-name" type="text" name="course-query" id="course-query" placeholder="Search for a course" onChange={handleCourseQueryChange}/>
                     <div className="filters">
                         <div>
                             Filters:
                         </div>
-                        <select className="semester" id="semester" name="semester" onChange={handleInputChange}>
+                        <select className="semester" id="semester" name="semester" onChange={handleSemesterChange}>
                             <option value="semester">Semester</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -39,7 +93,7 @@ const Dashboard = (args) => {
                             <option value="7">7</option>
                             <option value="8">8</option>
                         </select>
-                        <select className="branch" id="branch" name="branch" onChange={handleInputChange}>
+                        <select className="branch" id="branch" name="branch" onChange={handleBranchChange}>
                             <option value="branch">Branch</option>
                             <option value="CSE">Computer Science and Engineering</option>
                             <option value="DS">Computer Science Data Science</option>
@@ -54,83 +108,39 @@ const Dashboard = (args) => {
                     </div>
                 </div>
                 <div className="course-queries">
-                    <div className="queried-course">
-                        <div className="course-info-header">
-                            <div className="course-info-header-details">
-                                <img className="lib-books-logo" src={lib_books} alt="" />
-                                <div className="course-code">
-                                    PY1203
+                    {queriedCourses.map((course) => {
+                        return (
+                            <div className="queried-course">
+                                <div className="course-info-header">
+                                    <div className="course-info-header-details">
+                                        <img className="lib-books-logo" src={lib_books} alt="" />
+                                        <div className="course-code">
+                                            {course.id}
+                                        </div>
+                                    </div>
+                                    <div className="add-course-btn" onClick={() => handleAddCourseButtonOnClick(course.id)}>
+                                        <img src={add} alt="" />
+                                    </div>
+                                </div>
+                                <div className="course-info-footer">
+                                    <div>
+                                        Topic: {course.name}
+                                    </div>
+                                    <div>
+                                        Branch: {course.branch}
+                                    </div>
+                                    <div>
+                                        Semester: {course.semester}
+                                    </div>
                                 </div>
                             </div>
-                            <div className="add-course-btn" onClick={() => handleAddCourseButtonOnClick("PY1203")}>
-                                <img src={add} alt="" />
-                            </div>
-                        </div>
-                        <div className="course-info-footer">
-                            <div>
-                                Topic: Electromagnetics
-                            </div>
-                            <div>
-                                Branch: All
-                            </div>
-                            <div>
-                                Semester: 2
-                            </div>
-                        </div>
-                    </div>
-                    <div className="queried-course">
-                        <div className="course-info-header">
-                            <div className="course-info-header-details">
-                                <img className="lib-books-logo" src={lib_books} alt="" />
-                                <div className="course-code">
-                                    PY1203
-                                </div>
-                            </div>
-                            <div className="add-course-btn" onClick={() => handleAddCourseButtonOnClick("PY1203")}>
-                                <img src={add} alt="" />
-                            </div>
-                        </div>
-                        <div className="course-info-footer">
-                            <div>
-                                Topic: Electromagnetics
-                            </div>
-                            <div>
-                                Branch: All
-                            </div>
-                            <div>
-                                Semester: 2
-                            </div>
-                        </div>
-                    </div>
-                    <div className="queried-course">
-                        <div className="course-info-header">
-                            <div className="course-info-header-details">
-                                <img className="lib-books-logo" src={lib_books} alt="" />
-                                <div className="course-code">
-                                    PY1203
-                                </div>
-                            </div>
-                            <div className="add-course-btn" onClick={() => handleAddCourseButtonOnClick("PY1203")}>
-                                <img src={add} alt="" />
-                            </div>
-                        </div>
-                        <div className="course-info-footer">
-                            <div>
-                                Topic: Electromagnetics
-                            </div>
-                            <div>
-                                Branch: All
-                            </div>
-                            <div>
-                                Semester: 2
-                            </div>
-                        </div>
-                    </div>
+                        );
+                    })}
                 </div>
             </div>
         </>
     );
 }
 
-export default Dashboard;
+export default AddCoursePane;
 
