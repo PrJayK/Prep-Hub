@@ -1,7 +1,11 @@
 const { UserGoogle, Course } = require('../db/db');
 const { isLoggedIn } = require('../middleware/auth');
-
+const { awsRouter } = require('./aws')
 const router = require('express').Router();
+
+router.use('/aws', awsRouter);
+
+//convert courses apis to /course api
 
 router.post('/queryCourses', isLoggedIn, async (req, res) => {
     const { course_query, semester, branch } = req.body;
@@ -78,4 +82,5 @@ router.post('/addToEnrolledCourses', isLoggedIn, async (req, res) => {
 
     res.status(201).json(existingCourse);
 });
+
 module.exports = router;

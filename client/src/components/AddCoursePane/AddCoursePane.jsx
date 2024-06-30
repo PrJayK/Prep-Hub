@@ -37,8 +37,8 @@ const AddCoursePane = (args) => {
             withCredentials: true
         })
         .then((res) => {
-            if(res.data.message == "Course already enrolled in.") {
-                alert("Course already enrolled in.");
+            if(res.data.message) {
+                alert("Course is already enrolled in.");
             } else {
                 args.setEnrolledCourses([...args.enrolledCourses, res.data]);
                 alert("Course added!");

@@ -24,7 +24,7 @@ const Navbar = (args) => {
                     <div className="logo nav-item-left">
                         <img className="logo" src={logo} alt="" />
                     </div>
-                    <div className="logo-text nav-item-left">
+                    <div className="logo-text nav-item-left" onClick>
                         <div>
                             Prep-Hub
                         </div>

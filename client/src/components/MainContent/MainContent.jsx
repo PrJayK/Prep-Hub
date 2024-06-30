@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import "./MainContent.css";
 
@@ -10,6 +11,7 @@ import AddCoursePane from "../AddCoursePane/AddCoursePane"
 const MainContent = (args) => {
 
     const [content, setContent] = useState('pyqs');
+    const [bannerUrl, setBannerUrl] = useState();
 
     function handlePYQSOnClick(event) {
         setContent('pyqs')
@@ -19,8 +21,25 @@ const MainContent = (args) => {
         setContent('resources')
     }
 
-    function handlePYQOnClick(event) {
+    useEffect(() => {
+        args.selectedCourse ?
+        axios.post('http://localhost:3000/api/aws/getObjectUrl', {
+            key: args.selectedCourse.bannerKey
+        }, { withCredentials: true })
+        .then(res => setBannerUrl(res.data.url)) : null ;
+    }, [args.selectedCourse]);
 
+    function handleDocumentOnClick(key) {
+        axios.post('http://localhost:3000/api/aws/getObjectUrl', {
+            key: key
+        }, { withCredentials: true })
+        .then((res) => {
+            window.open(res.data.url, '_blank');
+        })
+        .catch((err) => {
+            console.log(err);
+            alert("An error occured. Couldn't fetch object url.");
+        });
     }
     
     return (
@@ -48,15 +67,15 @@ const MainContent = (args) => {
                     {args.selectedCourse ?
                     <>
                         <div className="content-controller">    
-                            <div id="PYQS-controller" onClick={handlePYQSOnClick}>
+                            <div className={content === 'pyqs' ? 'active' : ''} id="PYQS-controller" onClick={handlePYQSOnClick} >
                                 PYQs
                             </div>
-                            <div id="Resources-controller" onClick={handleResourcesOnClick}>
+                            <div className={content === 'resources' ? 'active' : ''} id="Resources-controller" onClick={handleResourcesOnClick} >
                                 Resources
                             </div>
                         </div>
                         <div className="content">
-                            <div className="banner">
+                            <div className="banner" style={{backgroundImage: `url(${bannerUrl})`}}>
                                 <div className="banner-text">
                                     {args.selectedCourse.id}
                                 </div>
@@ -68,7 +87,7 @@ const MainContent = (args) => {
                                             return (
                                                 <div className="document">
                                                     <img className="document-logo" src={document} alt="" />
-                                                    <div onClick={() => handlePYQOnClick(pyq.linkToAWS)}>
+                                                    <div onClick={() => handleDocumentOnClick(pyq.key)}>
                                                         {pyq.name}
                                                     </div>
                                                 </div>
@@ -81,41 +100,36 @@ const MainContent = (args) => {
                                 <div className="resources-container" id="resources-container">
                                     <div className="aside"></div><div className="resources">
                                         {
-                                            // console.log(typeof args.selectedCourse.PYQs)
                                             args.selectedCourse.resources.map((resource) => {
                                                 return(
                                                     <>
-                                                        {
-                                                            resource.dataType == 'text' ? 
-                                                                <div className="resource-text">
-                                                                    <div className="text-header">
-                                                                        <img className="text-logo" src={text} alt="" />
-                                                                        <div className="text-heading">
-                                                                            {resource.name}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="text-content">
-                                                                        <p className="text">
-                                                                            Refer to the following video for the Electromagnetic Theory:
-                                                                            <br></br>
-                                                                            <a href="https://www.youtube.com/watch?somevideo">www.youtube.com/watch?somevideo</a>
-                                                                        </p>
+                                                        {resource.dataType == 'text' ? 
+                                                            <div className="resource-text">
+                                                                <div className="text-header">
+                                                                    <img className="text-logo" src={text} alt="" />
+                                                                    <div className="text-heading">
+                                                                        {resource.name}
                                                                     </div>
                                                                 </div>
-                                                            : <></>
-                                                        }
-                                                        {
-                                                            resource.dataType == 'document' ? 
-                                                                <div className="resource-document">
-                                                                    <div className="document">
-                                                                        <img className="document-logo" src={document} alt="" />
-                                                                        <div>
-                                                                            {resource.name}
-                                                                        </div>
+                                                                <div className="text-content">
+                                                                    <p className="text">
+                                                                        <pre>
+                                                                            {resource.content}
+                                                                        </pre>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        : <></>}
+                                                        {resource.dataType == 'document' ? 
+                                                            <div className="resource-document">
+                                                                <div className="document">
+                                                                    <img className="document-logo" src={document} alt="" />
+                                                                    <div onClick={() => handleDocumentOnClick(resource.key)}>
+                                                                        {resource.name}
                                                                     </div>
                                                                 </div>
-                                                            : <></>
-                                                        }
+                                                            </div>
+                                                        : <></>}
                                                     </>
                                                 );
                                             })

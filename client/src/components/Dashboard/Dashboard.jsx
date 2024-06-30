@@ -14,31 +14,22 @@ const Dashboard = (args) => {
 
     const [enrolledCourses, setEnrolledCourses] = useState([]);
     
-    useEffect(() => {
-        async function fetchData() {
-            await axios.get('http://localhost:3000/api/getEnrolledCourses')
-            .then(async (res) => {
-                console.log(enrolledCourses);
-                setEnrolledCourses(res.data);
-            })
-            .catch((err) => {
-                alert("An error occured. Couldn't fetch enrolled courses.");
-            });
-        }
-        fetchData();
+    useEffect(async () => {
+        await axios.get('http://localhost:3000/api/getEnrolledCourses')
+        .then(async (res) => {
+            setEnrolledCourses(res.data);
+        })
+        .catch((err) => {
+            alert("An error occured. Couldn't fetch enrolled courses.");
+        });
     }, []);
 
     useEffect(() => {
-        console.log("enrolled courses:");
-        console.log(enrolledCourses);
         setSelectedCourse(enrolledCourses[0]);
     }, [enrolledCourses]);
 
-    useEffect(() => {
-        console.log("selected course pyqs:");
-        selectedCourse ? 
-        console.log(typeof selectedCourse.PYQs) : null ;
-    }, [selectedCourse]);
+    // useEffect(() => {
+    // }, [selectedCourse]);
 
     
     return (

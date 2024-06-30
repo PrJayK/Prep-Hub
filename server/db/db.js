@@ -69,6 +69,10 @@ const CourseSchema = new mongoose.Schema({
     semester: {
         type: Number,
         required: true
+    },
+    bannerKey: {
+        type: String,
+        required: true
     }
 })
 

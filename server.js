@@ -30,8 +30,8 @@ app.use(session({
     }
 }));
 
-app.use(express.static(path.join(__dirname, 'client', 'dist')));
-
 app.use('/', homeRouter);
 
-app.listen(3000, () => console.log('Server listening on port 3000'));
+app.use(express.static(path.join(__dirname, 'client', 'dist')));
+
+app.listen(3000, () => console.log('Server listening on port 80'));
