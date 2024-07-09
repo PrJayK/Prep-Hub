@@ -13,7 +13,7 @@
     padding: 0.5rem;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid lightgrey;
+    border-bottom: 1px solid darkgrey;
 }
 .nav-item-left{
     margin: 0 1rem 0 0;
@@ -37,14 +37,37 @@
 .logo-text{
     cursor: pointer;
 }
-.add-courses{
+
+.button-54 {
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #000;
     cursor: pointer;
-    border-radius: 100%;
+    border: 3px solid;
+    padding: 0.25em 0.5em;
+    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
-.add-courses:hover{
-    background-color: lightgrey;
+
+.button-54:active {
+    box-shadow: 0px 0px 0px 0px;
+    top: 5px;
+    left: 5px;
 }
-.logout-btn{
+
+@media (min-width: 768px) {
+    .button-54 {
+      padding: 0.25em 0.75em;
+    }
+}
+
+/* .add-courses{
     padding: 0.2rem 0.5rem 0.2rem 0.5rem;
     background-color: #b6b6b6;
     border-radius: 8px;
@@ -52,4 +75,16 @@
     cursor: pointer;
     border-style: none;
     color: #FFFFFF;
-}
+} */
+/* .add-courses:hover{
+    background-color: lightgrey;
+} */
+/* .logout-btn{
+    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+    background-color: #b6b6b6;
+    border-radius: 8px;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-style: none;
+    color: #FFFFFF;
+} */

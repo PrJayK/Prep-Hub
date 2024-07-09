@@ -12,9 +12,13 @@ const Navbar = (args) => {
         args.setAddCoursesButton(true);
     }
 
+    const handleContributeButtonOnClick = () => {
+        window.location.href = '/upload';
+    }
+
     
     const handleLogout = async () => {
-        window.location.href = '/logout'
+        window.location.href = '/logout';
     }
 
     return (
@@ -31,11 +35,14 @@ const Navbar = (args) => {
                     </div>
                 </div>
                 <div className="nav-right">
-                    <div className="add-courses nav-item-right" onClick={handleAddCoursesButtonOnClick}>
-                        <img src={add} alt="" />
+                    <div className="nav-item-right">
+                        <button class="button-54" onClick={handleContributeButtonOnClick}>Contribute!</button>
                     </div>
                     <div className="nav-item-right">
-                        <button className="logout-btn" onClick={handleLogout}>Logout</button>
+                        <button className="button-54" onClick={handleAddCoursesButtonOnClick}>Add courses</button>
+                    </div>
+                    <div className="nav-item-right">
+                        <button className="button-54" onClick={handleLogout}>Logout</button>
                     </div>
                 </div>
             </div>

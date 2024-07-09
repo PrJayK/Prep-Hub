@@ -13,6 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
+    origin: true,
     credentials: true
 }));
 
@@ -34,4 +35,4 @@ app.use('/', homeRouter);
 
 app.use(express.static(path.join(__dirname, 'client', 'dist')));
 
-app.listen(3000, () => console.log('Server listening on port 80'));
+app.listen(3000, () => console.log('Server listening on port 3000'));

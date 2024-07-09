@@ -10,11 +10,15 @@ router.get('/', (req, res) => {
 
 router.use('/login', loginRouter);
 
+router.use('/api', apiRouter);
+
 router.use('/dashboard', isLoggedIn, (req, res) => {
     res.sendFile(path.join(__dirname, '../../', 'client', 'dist', 'index.html'));
 });
 
-router.use('/api', apiRouter);
+router.get('/upload', isLoggedIn, (req, res) => {
+    res.sendFile(path.join(__dirname, '../../', 'client', 'app', 'pages', 'upload.html'));
+});
 
 router.get('/logout', (req, res) => {
     req.session.destroy(err => {

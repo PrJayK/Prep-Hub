@@ -21,7 +21,7 @@
     opacity: 50%;
 }
 .active{
-    background-color: darkgrey;
+    background-color: lightgrey;
 }
 .enrolled-content{
     display: inline-block;

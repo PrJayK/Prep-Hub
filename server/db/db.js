@@ -43,7 +43,7 @@ const CourseSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-        linkToAWS: {
+        AWSKey: {
             type: String,
             required: true
         }
@@ -57,7 +57,7 @@ const CourseSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-        linkTOAWS: {
+        AWSKey: {
             type: String,
             required: true
         }
@@ -74,14 +74,47 @@ const CourseSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-})
+});
+
+const UserUploadSchema = new mongoose.Schema({
+    profile_id: {
+        type: String,
+        required: true
+    },
+    courseId: {
+        type: String,
+        required: true
+    },
+    resourceName: {
+        type: String,
+        required: true
+    },
+    resourceType: {
+        type: String,
+        required: true
+    },
+    branch: {
+        type: String,
+        required: true
+    },
+    semester: {
+        type: Number,
+        required: true
+    },
+    AWSKey: {
+        type: String,
+        required: true
+    }
+});
 
 
 const UserGoogle = mongoose.model('UserGoogle', GoogleUserSchema);
 const Course = mongoose.model('Course', CourseSchema);
+const UserUpload = mongoose.model('UserUpload', UserUploadSchema);
 
 module.exports = {
     UserGoogle,
     Course,
+    UserUpload,
     mongoUrl
 };

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Resource Form</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 66vw;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container h2 {
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: normal;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .form-group input[type="file"] {
+            padding: 3px;
+        }
+        .submit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .button-54 {
+            font-family: "Open Sans", sans-serif;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: #000;
+            cursor: pointer;
+            border: 3px solid;
+            padding: 0.25em 0.5em;
+            box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        .button-54:active {
+            box-shadow: 0px 0px 0px 0px;
+            top: 5px;
+            left: 5px;
+        }
+        @media (min-width: 768px) {
+            .button-54 {
+            padding: 0.25em 0.75em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Course Resource Form</h2>
+        <form id="uploadForm">
+            <div class="form-group">
+                <label for="courseId">Course ID</label>
+                <input type="text" id="courseId" name="courseId" required>
+            </div>
+            <div class="form-group">
+                <label for="resourceName">Resource Name</label>
+                <input type="text" id="resourceName" name="resourceName" required>
+            </div>
+            <div class="form-group">
+                <label for="resourceType">Resource Type</label>
+                <select id="resourceType" name="resourceType" required>
+                    <option value="pyqs">PYQs</option>
+                    <option value="resources">Resources</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="branch">Branch</label>
+                <input type="text" id="branch" name="branch" required>
+            </div>
+            <div class="form-group">
+                <label for="semester">Semester</label>
+                <input type="text" id="semester" name="semester" required>
+            </div>
+            <div class="form-group">
+                <label for="document">Upload Document</label>
+                <input type="file" id="document" name="document" required>
+            </div>
+            <div class="form-group submit">
+                <button class="button-54" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+    
+            const fileInput = document.getElementById('document');
+            if (fileInput.files.length === 0) {
+                alert('Please select a file to upload.');
+                return;
+            }
+    
+            const file = fileInput.files[0];
+    
+            // Request a pre-signed URL from the server
+            const putUrlResponse = await fetch('http://localhost:3000/api/aws/putObjectUrl', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fileName: file.name,
+                    fileType: file.type
+                }),
+                credentials: 'include'
+            });
+    
+            if(!putUrlResponse.ok) {
+                alert('Some error occured!');
+                return;
+            }
+
+            const { url, key } = await putUrlResponse.json();
+    
+            // Upload the file directly to S3 using the pre-signed URL
+            const s3UploadResponse = await fetch(url, {
+                method: 'PUT',
+                body: file,
+                headers: {
+                    'Content-Type': file.type
+                }
+            });
+
+            if (s3UploadResponse.ok) {
+
+                const courseId = document.getElementById('courseId').value;
+                const resourceName = document.getElementById('resourceName').value;
+                const resourceType = document.getElementById('resourceType').value;
+                const branch = document.getElementById('branch').value;
+                const semester = document.getElementById('semester').value;
+    
+                const formSubmitResponse = await fetch('http://localhost:3000/api/userContribute', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        courseId,
+                        resourceName,
+                        resourceType,
+                        branch,
+                        semester,
+                        key
+                    }),
+                    credentials: 'include'
+                });
+
+                if (formSubmitResponse.ok) {
+                    alert('Form submitted successfully!');
+                } else {
+                    alert('Failed to submit form data.');
+                }
+            } else {
+                alert('File upload failed.');
+            }
+        });
+    </script>
+</body>
+</html>
