@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const passport = require('passport');
 const { UserGoogle } = require('../db/db.js');
-const { BACKEND_URL } = require('../../client/src/backend_url.js');
 
 const router = Router();
 
