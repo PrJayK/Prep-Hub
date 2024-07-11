@@ -132,3 +132,6 @@ dist
 
 # local folders
 trash/
+
+# key pair
+*.pem

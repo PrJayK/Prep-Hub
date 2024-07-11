@@ -5,6 +5,7 @@ import "./AddCoursePane.css";
 
 import lib_books from "../../assets/lib-books.svg"
 import add from "../../assets/add.svg";
+import { BACKEND_URL } from "../../backend_url";
 
 const AddCoursePane = (args) => {
 
@@ -17,7 +18,7 @@ const AddCoursePane = (args) => {
     const [courseQueryTimeoutId, setcourseQueryTimeoutId] = useState(null);
     
     useEffect(() => {
-        axios.post('http://localhost:3000/api/queryCourses', {
+        axios.post(`http://${BACKEND_URL}:3000/api/queryCourses`, {
             course_query: courseQuery.course_query,
             branch: courseQuery.branch,
             semester: courseQuery.semester
@@ -31,7 +32,7 @@ const AddCoursePane = (args) => {
     }, [courseQuery]);
 
     const handleAddCourseButtonOnClick = (_id) => {
-        axios.post('http://localhost:3000/api/addToEnrolledCourses', {
+        axios.post(`http://${BACKEND_URL}:3000/api/addToEnrolledCourses`, {
             _id: _id
         },{
             withCredentials: true

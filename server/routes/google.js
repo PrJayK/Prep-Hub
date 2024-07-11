@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const passport = require('passport');
-const { UserGoogle } = require('../db/db.js')
+const { UserGoogle } = require('../db/db.js');
+const { BACKEND_URL } = require('../../client/src/backend_url.js');
 
 const router = Router();
 
@@ -12,7 +13,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/login/google/callback",
+    callbackURL: `http://${process.env.BACKEND_URL}:3000/login/google/callback`,
     passReqToCallback: true
 	},
 	async (req, accessToken, refreshToken, profile, done) => {

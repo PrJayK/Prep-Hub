@@ -5,6 +5,7 @@ import axios from "axios";
 import Navbar from "../Navbar/Navbar";
 import EnrolledPane from "../EnrolledPane/EnrolledPane";
 import MainContent from "../MainContent/MainContent";
+import { BACKEND_URL } from "../../backend_url";
 
 
 const Dashboard = (args) => {
@@ -15,7 +16,7 @@ const Dashboard = (args) => {
     const [enrolledCourses, setEnrolledCourses] = useState([]);
     
     useEffect(async () => {
-        await axios.get('http://localhost:3000/api/getEnrolledCourses')
+        await axios.get(`http://${BACKEND_URL}:3000/api/getEnrolledCourses`)
         .then(async (res) => {
             setEnrolledCourses(res.data);
         })

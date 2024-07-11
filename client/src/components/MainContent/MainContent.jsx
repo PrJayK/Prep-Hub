@@ -7,6 +7,7 @@ import document from "../../assets/document.svg"
 import text from "../../assets/text.svg"
 
 import AddCoursePane from "../AddCoursePane/AddCoursePane"
+import { BACKEND_URL } from "../../backend_url";
 
 const MainContent = (args) => {
 
@@ -23,14 +24,14 @@ const MainContent = (args) => {
 
     useEffect(() => {
         args.selectedCourse ?
-        axios.post('http://localhost:3000/api/aws/getObjectUrl', {
+        axios.post(`http://${BACKEND_URL}:3000/api/aws/getObjectUrl`, {
             key: args.selectedCourse.bannerKey
         }, { withCredentials: true })
         .then(res => setBannerUrl(res.data.url)) : null ;
     }, [args.selectedCourse]);
 
     function handleDocumentOnClick(key) {
-        axios.post('http://localhost:3000/api/aws/getObjectUrl', {
+        axios.post(`http://${BACKEND_URL}:3000/api/aws/getObjectUrl`, {
             key: key
         }, { withCredentials: true })
         .then((res) => {
