@@ -13,7 +13,7 @@ Prep Hub is a platform designed to help users prepare for exams by providing acc
 ## Technologies Used
 
 - **Frontend**: HTML, CSS, JavaScript (ES6), React, Recoil, Tailwind CSS
-- **Backend**: Node.js, Express.js, MongoDB (Atlas), JWT for authentication
+- **Backend**: Node.js, Express.js, MongoDB (Atlas), Google O.Auth 2.0 for authentication
 - **Deployment**: AWS (EC2 for hosting, S3 for file storage), Docker for containerization
 
 ## Installation
