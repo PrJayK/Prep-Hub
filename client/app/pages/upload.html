@@ -131,7 +131,7 @@
             const file = fileInput.files[0];
     
             // Request a pre-signed URL from the server
-            const putUrlResponse = await fetch(`http://ec2-13-127-206-190.ap-south-1.compute.amazonaws.com:3000/api/aws/putObjectUrl`, {
+            const putUrlResponse = await fetch(`/api/aws/putObjectUrl`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -167,7 +167,7 @@
                 const branch = document.getElementById('branch').value;
                 const semester = document.getElementById('semester').value;
     
-                const formSubmitResponse = await fetch('http://ec2-13-127-206-190.ap-south-1.compute.amazonaws.com:3000/api/userContribute', {
+                const formSubmitResponse = await fetch('/api/userContribute', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

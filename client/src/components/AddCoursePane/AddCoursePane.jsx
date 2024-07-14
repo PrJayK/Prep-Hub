@@ -18,7 +18,7 @@ const AddCoursePane = (args) => {
     const [courseQueryTimeoutId, setcourseQueryTimeoutId] = useState(null);
     
     useEffect(() => {
-        axios.post(`http://${BACKEND_URL}:3000/api/queryCourses`, {
+        axios.post(`/api/queryCourses`, {
             course_query: courseQuery.course_query,
             branch: courseQuery.branch,
             semester: courseQuery.semester
@@ -32,7 +32,7 @@ const AddCoursePane = (args) => {
     }, [courseQuery]);
 
     const handleAddCourseButtonOnClick = (_id) => {
-        axios.post(`http://${BACKEND_URL}:3000/api/addToEnrolledCourses`, {
+        axios.post(`/api/addToEnrolledCourses`, {
             _id: _id
         },{
             withCredentials: true

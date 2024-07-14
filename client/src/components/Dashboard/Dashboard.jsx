@@ -16,7 +16,7 @@ const Dashboard = (args) => {
     const [enrolledCourses, setEnrolledCourses] = useState([]);
     
     useEffect(async () => {
-        await axios.get(`http://${BACKEND_URL}:3000/api/getEnrolledCourses`)
+        await axios.get(`/api/getEnrolledCourses`)
         .then(async (res) => {
             setEnrolledCourses(res.data);
         })

@@ -24,14 +24,14 @@ const MainContent = (args) => {
 
     useEffect(() => {
         args.selectedCourse ?
-        axios.post(`http://${BACKEND_URL}:3000/api/aws/getObjectUrl`, {
+        axios.post(`/api/aws/getObjectUrl`, {
             key: args.selectedCourse.bannerKey
         }, { withCredentials: true })
         .then(res => setBannerUrl(res.data.url)) : null ;
     }, [args.selectedCourse]);
 
     function handleDocumentOnClick(key) {
-        axios.post(`http://${BACKEND_URL}:3000/api/aws/getObjectUrl`, {
+        axios.post(`/api/aws/getObjectUrl`, {
             key: key
         }, { withCredentials: true })
         .then((res) => {
@@ -76,19 +76,19 @@ const MainContent = (args) => {
                             </div>
                         </div>
                         <div className="content">
-                            <div className="banner" style={{backgroundImage: `url(${bannerUrl})`}}>
+                            {/* <div className="banner" style={{backgroundImage: `url(${bannerUrl})`}}>
                                 <div className="banner-text">
                                     {args.selectedCourse.id}
                                 </div>
-                            </div>
+                            </div> */}
                             {content === 'pyqs' && 
                                 <div className="pyqs-container" id="pyqs-container">
                                     <div className="aside"></div><div className="pyqs">
                                         {args.selectedCourse.PYQs.map((pyq) => {
                                             return (
-                                                <div className="document">
+                                                <div className="document"  onClick={() => handleDocumentOnClick(pyq.key)}>
                                                     <img className="document-logo" src={document} alt="" />
-                                                    <div onClick={() => handleDocumentOnClick(pyq.key)}>
+                                                    <div>
                                                         {pyq.name}
                                                     </div>
                                                 </div>
@@ -123,9 +123,9 @@ const MainContent = (args) => {
                                                         : <></>}
                                                         {resource.dataType == 'document' ? 
                                                             <div className="resource-document">
-                                                                <div className="document">
+                                                                <div className="document" onClick={() => handleDocumentOnClick(resource.key)}>
                                                                     <img className="document-logo" src={document} alt="" />
-                                                                    <div onClick={() => handleDocumentOnClick(resource.key)}>
+                                                                    <div>
                                                                         {resource.name}
                                                                     </div>
                                                                 </div>
