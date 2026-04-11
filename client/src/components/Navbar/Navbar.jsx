@@ -1,54 +1,65 @@
-import axios from "axios"
-
-import logo from "../../assets/logo.jpg";
-import add from "../../assets/add.svg";
-
-import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Upload, PlusCircle, LogOut } from "lucide-react";
 
 const Navbar = (args) => {
+  const handleAddCoursesButtonOnClick = () => {
+    args.setAddCoursesButton(true);
+  };
 
-    const handleAddCoursesButtonOnClick = () => {
-        args.setAddCoursesButton(true);
-    }
+  const handleContributeButtonOnClick = () => {
+    window.location.href = "/upload";
+  };
 
-    const handleContributeButtonOnClick = () => {
-        window.location.href = '/upload';
-    }
+  const handleLogout = async () => {
+    window.location.href = "/logout";
+  };
 
-    
-    const handleLogout = async () => {
-        window.location.href = '/logout';
-    }
-
-    return (
-        <>
-            <div className="navbar">
-                <div className="nav-left">
-                    <div className="logo nav-item-left">
-                        <img className="logo" src={logo} alt="" />
-                    </div>
-                    <div className="logo-text nav-item-left" onClick>
-                        <div>
-                            Prep-Hub
-                        </div>
-                    </div>
-                </div>
-                <div className="nav-right">
-                    <div className="nav-item-right">
-                        <button class="button-54" onClick={handleContributeButtonOnClick}>Contribute!</button>
-                    </div>
-                    <div className="nav-item-right">
-                        <button className="button-54" onClick={handleAddCoursesButtonOnClick}>Add courses</button>
-                    </div>
-                    <div className="nav-item-right">
-                        <button className="button-54" onClick={handleLogout}>Logout</button>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
-}
+  return (
+    <header className="sticky top-0 z-50 shrink-0 border-b border-border bg-background/80 backdrop-blur-md">
+      <nav className="mx-auto flex h-16 max-w-[1600px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <div className="flex min-w-0 items-center gap-2">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-lg font-bold text-primary-foreground">
+            P
+          </div>
+          <span className="truncate font-bold text-lg text-foreground">
+            Prep Hub
+          </span>
+        </div>
+        <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="border-border"
+            onClick={handleContributeButtonOnClick}
+          >
+            <Upload className="size-4 sm:mr-1" />
+            <span className="hidden sm:inline">Contribute</span>
+          </Button>
+          <Button
+            type="button"
+            variant="default"
+            size="sm"
+            className="bg-primary hover:bg-primary/90"
+            onClick={handleAddCoursesButtonOnClick}
+          >
+            <PlusCircle className="size-4 sm:mr-1" />
+            <span className="hidden sm:inline">Add courses</span>
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="text-foreground/80"
+            onClick={handleLogout}
+          >
+            <LogOut className="size-4 sm:mr-1" />
+            <span className="hidden sm:inline">Logout</span>
+          </Button>
+        </div>
+      </nav>
+    </header>
+  );
+};
 
 export default Navbar;
-

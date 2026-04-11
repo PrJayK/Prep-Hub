@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
-// import "./Dashboard.css";
 import Navbar from "../Navbar/Navbar";
 import EnrolledPane from "../EnrolledPane/EnrolledPane";
 import MainContent from "../MainContent/MainContent";
-import { BACKEND_URL } from "../../backend_url";
+import { BACKEND_URL } from "@/config/env";
 
 
 const Dashboard = (args) => {
@@ -14,14 +13,18 @@ const Dashboard = (args) => {
     const [selectedCourse, setSelectedCourse] = useState(null);
 
     const [enrolledCourses, setEnrolledCourses] = useState([]);
-    
-    useEffect(async () => {
-        await axios.get(`/api/getEnrolledCourses`)
-        .then(async (res) => {
+
+    useEffect(() => {
+        axios
+        .get(
+            `${BACKEND_URL}/api/getEnrolledCourses`,
+            { withCredentials: true }
+        )
+        .then((res) => {
             setEnrolledCourses(res.data);
         })
-        .catch((err) => {
-            alert("An error occured. Couldn't fetch enrolled courses.");
+        .catch(() => {
+            alert("An error occured. Couldn't query for enrolled courses.");
         });
     }, []);
 
@@ -29,19 +32,14 @@ const Dashboard = (args) => {
         setSelectedCourse(enrolledCourses[0]);
     }, [enrolledCourses]);
 
-    // useEffect(() => {
-    // }, [selectedCourse]);
-
-    
     return (
-        <>
+        <div className="flex h-dvh min-h-0 flex-col overflow-hidden font-sans bg-gradient-to-b from-background via-background to-muted/20 text-foreground">
             <Navbar isLoggedIn={args.isLoggedIn} setIsLoggedIn={args.setIsLoggedIn} setAddCoursesButton={setAddCoursesButton} />
-            
-            <div className="main-container">
+            <div className="flex min-h-0 flex-1 items-stretch overflow-hidden">
                 <EnrolledPane selectedCourse={selectedCourse} setSelectedCourse={setSelectedCourse} setAddCoursesButton={setAddCoursesButton} enrolledCourses={enrolledCourses}/>
                 <MainContent addCoursesButton={addCoursesButton} selectedCourse={selectedCourse} enrolledCourses={enrolledCourses} setEnrolledCourses={setEnrolledCourses} />
             </div>
-        </>
+        </div>
     );
 }
 

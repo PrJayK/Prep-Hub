@@ -53,7 +53,7 @@ router.get('/callback',
 );
 
 router.get('/callbackSuccess',(req, res) => {
-    res.redirect('/dashboard');
+    res.redirect(`${process.env.FrontendUrl}/dashboard`);
 });
 
 module.exports = router;

@@ -44,7 +44,6 @@ router.get('/getEnrolledCourses', isLoggedIn, async (req, res) => {
 
     const existingUser = await UserGoogle.findOne({ profile_id: profile_id }).populate('enrolledCourses').exec();
 
-
     if(!existingUser) {
         return res.sendStatus(401);
     }

@@ -4,21 +4,21 @@ const loginRouter = require('./login');
 const apiRouter = require('./api');
 const path = require('path');
 
-router.get('/', (req, res) => {
-    res.redirect('/dashboard');
-});
+// router.get('/', (req, res) => {
+//     res.redirect('/dashboard');
+// });
 
 router.use('/login', loginRouter);
 
 router.use('/api', apiRouter);
 
-router.use('/dashboard', isLoggedIn, (req, res) => {
-    res.sendFile(path.join(__dirname, '../../', 'client', 'dist', 'index.html'));
-});
+// router.use('/dashboard', isLoggedIn, (req, res) => {
+//     res.sendFile(path.join(__dirname, '../../', 'client', 'dist', 'index.html'));
+// });
 
-router.get('/upload', isLoggedIn, (req, res) => {
-    res.sendFile(path.join(__dirname, '../../', 'client', 'app', 'pages', 'upload.html'));
-});
+// router.get('/upload', isLoggedIn, (req, res) => {
+//     res.sendFile(path.join(__dirname, '../../', 'client', 'app', 'pages', 'upload.html'));
+// });
 
 router.get('/logout', (req, res) => {
     req.session.destroy(err => {
