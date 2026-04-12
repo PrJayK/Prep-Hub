@@ -1,7 +1,8 @@
-const { Router } = require('express');
-const passport = require('passport');
-const { UserGoogle } = require('../db/db.js');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+import { Router } from 'express';
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { UserGoogle } from '../db/db.js';
+import '../config/env.js';
 
 const router = Router();
 
@@ -56,4 +57,4 @@ router.get('/callbackSuccess',(req, res) => {
     res.redirect(`${process.env.FrontendUrl}/dashboard`);
 });
 
-module.exports = router;
+export default router;

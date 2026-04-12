@@ -1,8 +1,8 @@
-const router = require('express').Router();
-const { isLoggedIn } = require('../middleware/auth');
-const loginRouter = require('./login');
-const apiRouter = require('./api');
-const path = require('path');
+import { Router } from 'express';
+import loginRouter from './login.js';
+import apiRouter from './api.js';
+
+const router = Router();
 
 // router.get('/', (req, res) => {
 //     res.redirect('/dashboard');
@@ -31,4 +31,4 @@ router.get('/logout', (req, res) => {
 });
 
 
-module.exports = router;
+export default router;

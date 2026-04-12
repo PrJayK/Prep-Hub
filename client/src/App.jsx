@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Landing from './components/Landing/Landing';
-
+const Search = lazy(() => import('./components/Search/Search'));
 const Dashboard = lazy(() => import('./components/Dashboard/Dashboard'));
 
 const App = () => {
@@ -12,6 +12,7 @@ const App = () => {
 				<Routes>
 					<Route path="/" element={<Landing />} />
 					<Route path="/dashboard" element={<Dashboard />} />
+					<Route path="/search" element={<Search />} />
 				</Routes>
 			</Suspense>
 		</Router>

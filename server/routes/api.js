@@ -1,11 +1,54 @@
-const { UserGoogle, Course, UserUpload } = require('../db/db');
-const { isLoggedIn } = require('../middleware/auth');
-const { awsRouter } = require('./aws')
-const router = require('express').Router();
+import { Router } from 'express';
+import { UserGoogle, Course, Resource, UserUpload } from '../db/db.js';
+import { isLoggedIn } from '../middleware/auth.js';
+import { awsRouter } from './aws.js';
+import { chatRouter } from './chat.routes.js';
+
+const router = Router();
 
 router.use('/aws', awsRouter);
 
-//todo: convert courses apis to /course api
+router.use('/chat', chatRouter);
+
+router.get('/search', isLoggedIn, async (req, res) => {
+    const query = req.query.q;
+
+    //TODO: implement semantic search later.
+
+    const matchStage = {};
+
+    const results = await Resource.aggregate([
+        {
+            $match: matchStage
+        },
+        {
+            $lookup: {
+                from: "courses",
+                let: { resourceId: "$_id" },
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $or: [
+                                    { $in: ["$$resourceId", "$PYQs"] },
+                                    { $in: ["$$resourceId", "$resources"] }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        $project: { id: 1, name: 1 }
+                    }
+                ],
+                as: "courses"
+            }
+        }
+    ]);
+
+    res.json(results);
+
+    console.log(results);
+});
 
 router.post('/queryCourses', isLoggedIn, async (req, res) => {
     const { course_query, semester, branch } = req.body;
@@ -42,7 +85,15 @@ router.post('/queryCourses', isLoggedIn, async (req, res) => {
 router.get('/getEnrolledCourses', isLoggedIn, async (req, res) => {
     const profile_id = req.session.passport.user.id;
 
-    const existingUser = await UserGoogle.findOne({ profile_id: profile_id }).populate('enrolledCourses').exec();
+    const existingUser = await UserGoogle.findOne({ profile_id })
+    .populate({
+        path: 'enrolledCourses',
+        populate: [
+            { path: 'PYQs', model: 'Resource' },
+            { path: 'resources', model: 'Resource' }
+        ]
+    })
+    .exec();
 
     if(!existingUser) {
         return res.sendStatus(401);
@@ -103,11 +154,10 @@ router.post('/userContribute', isLoggedIn, async (req, res) => {
     if(!userUpload) {
         return res.sendStatus(401);
     }
-    console.log(userUpload);
     
     return res.status(201).json({
         message: 'uploaded successfully!'
     });
 });
 
-module.exports = router;
+export default router;

@@ -1,13 +1,11 @@
-require('dotenv').config();
-
-const express = require('express');
-const session = require('express-session');
-const homeRouter = require('./server/routes/home');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const path = require('path');
-const MongoStore = require('connect-mongo');
-const { mongoUrl } = require('./server/db/db');
+import './server/config/env.js';
+import express from 'express';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import MongoStore from 'connect-mongo';
+import homeRouter from './server/routes/home.js';
+import { mongoUrl } from './server/db/db.js';
 
 const app = express();
 app.use(express.json());
@@ -33,6 +31,6 @@ app.use(session({
 
 app.use('/', homeRouter);
 
-app.use(express.static(path.join(__dirname, 'client', 'dist')));
+app.use((req, res) => res.sendStatus(404));
 
 app.listen(3000, () => console.log('Server listening on port 3000'));

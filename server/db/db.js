@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import '../config/env.js';
+import mongoose from 'mongoose';
 
 console.log("Connecting to the Database");
 
@@ -35,37 +36,17 @@ const CourseSchema = new mongoose.Schema({
         required: true
     },
     PYQs: [{
-        dataType: {
-            type: String,
-            required: true
-        },
-        name: {
-            type: String,
-            required: true
-        },
-        AWSKey: {
-            type: String,
-            required: true
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Resource'
     }],
     resources: [{
-        dataType: {
-            type: String,
-            required: true
-        },
-        name: {
-            type: String,
-            required: true
-        },
-        AWSKey: {
-            type: String,
-            required: true
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Resource'
     }],
-    branch: [{
+    branch: {
         type: String,
         required: true
-    }],
+    },
     semester: {
         type: Number,
         required: true
@@ -76,9 +57,33 @@ const CourseSchema = new mongoose.Schema({
     }
 });
 
+const ResourceSchema = new mongoose.Schema({
+    dataType: {
+        type: String,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    AWSKey: {
+        type: String,
+        required: false
+    },
+    content: {
+        type: String,
+        required: false
+    },
+    uploadTime: {
+        type: Date,
+        default: Date.now,
+        required: true
+    }
+});
+
 const UserUploadSchema = new mongoose.Schema({
     profile_id: {
-        type: String,
+        type: Number,
         required: true
     },
     courseId: {
@@ -110,11 +115,13 @@ const UserUploadSchema = new mongoose.Schema({
 
 const UserGoogle = mongoose.model('UserGoogle', GoogleUserSchema);
 const Course = mongoose.model('Course', CourseSchema);
+const Resource = mongoose.model('Resource', ResourceSchema);
 const UserUpload = mongoose.model('UserUpload', UserUploadSchema);
 
-module.exports = {
+export {
     UserGoogle,
     Course,
+    Resource,
     UserUpload,
     mongoUrl
 };

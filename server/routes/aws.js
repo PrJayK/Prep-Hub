@@ -1,7 +1,10 @@
-const { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
-const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const { isLoggedIn } = require("../middleware/auth")
-const router = require('express').Router();
+import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { Router } from "express";
+import { isLoggedIn } from "../middleware/auth.js";
+import "../config/env.js";
+
+const router = Router();
 
 const s3Client = new S3Client({
     region: "ap-south-1",
@@ -82,6 +85,4 @@ router.post('deleteObjectUrl', isLoggedIn, async (req, res) => {
         });
 });
 
-module.exports = {
-    awsRouter: router
-}
+export { router as awsRouter };

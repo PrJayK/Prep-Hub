@@ -4,6 +4,7 @@ import axios from "axios";
 import Navbar from "../Navbar/Navbar";
 import EnrolledPane from "../EnrolledPane/EnrolledPane";
 import MainContent from "../MainContent/MainContent";
+import Chatbot from "../Chatbot/Chatbot";
 import { BACKEND_URL } from "@/config/env";
 
 
@@ -11,6 +12,7 @@ const Dashboard = (args) => {
 
     const [addCoursesButton, setAddCoursesButton] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
+    const [chatbotMode, setChatbotMode] = useState("closed");
 
     const [enrolledCourses, setEnrolledCourses] = useState([]);
 
@@ -38,6 +40,7 @@ const Dashboard = (args) => {
             <div className="flex min-h-0 flex-1 items-stretch overflow-hidden">
                 <EnrolledPane selectedCourse={selectedCourse} setSelectedCourse={setSelectedCourse} setAddCoursesButton={setAddCoursesButton} enrolledCourses={enrolledCourses}/>
                 <MainContent addCoursesButton={addCoursesButton} selectedCourse={selectedCourse} enrolledCourses={enrolledCourses} setEnrolledCourses={setEnrolledCourses} />
+                <Chatbot mode={chatbotMode} setMode={setChatbotMode} />
             </div>
         </div>
     );

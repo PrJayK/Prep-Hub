@@ -1,5 +1,5 @@
-const { Router } = require("express");
-const googleRouter = require('./google');
+import { Router } from "express";
+import googleRouter from './google.js';
 
 const router = Router();
 
@@ -9,4 +9,4 @@ router.get('/', (req, res) => {
     res.redirect('/login/google');
 });
 
-module.exports = router;
+export default router;
