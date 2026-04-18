@@ -1,8 +1,23 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Button } from '@/components/ui/button'
 import { ArrowRight, BookOpen, Zap, Target, Users } from 'lucide-react'
 import { BACKEND_URL } from '@/config/env';
+import { useNavigate } from 'react-router-dom';
 
 export default function Landing() {
+	const [user, setUser] = useState(null);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		axios
+			.get(`${BACKEND_URL}/api/me`, { withCredentials: true })
+			.then((res) => setUser(res.data))
+			.catch(() => {
+				// ignore; unauthenticated visitors may still view landing
+			});
+	}, []);
+
 	return (
 		<div className="min-h-dvh font-sans bg-gradient-to-b from-background via-background to-muted/20 text-foreground">
 			{/* Navigation Header */}
@@ -10,7 +25,7 @@ export default function Landing() {
 				<nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
 					<div className="flex items-center gap-2">
 						<div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-lg">P</div>
-						<span className="font-bold text-lg text-foreground">Prep Hub</span>
+						<span className="font-bold text-lg text-foreground">Prep-Hub</span>
 					</div>
 					<div className="hidden md:flex items-center gap-8">
 						<a href="#features" className="text-foreground/70 hover:text-foreground transition">Features</a>
@@ -18,10 +33,8 @@ export default function Landing() {
 						<a href="#pricing" className="text-foreground/70 hover:text-foreground transition">Pricing</a>
 					</div>
 					<div className="flex items-center gap-3">
-						<Button variant="ghost" className="inline-flex" onClick={() => {window.location.href = `${BACKEND_URL}/login`;}}>
-							Sign In
-						</Button>
-						<Button className="bg-primary hover:bg-primary/90">Get Started</Button>
+						{!user && (<Button variant="ghost" className="inline-flex" onClick={() => {window.location.href = `${BACKEND_URL}/login`;}}>Sign In</Button>)}
+						{user && (<Button className="bg-primary hover:bg-primary/90" onClick={() => navigate('/dashboard')}>Get Started</Button>)}
 					</div>
 				</nav>
 			</header>
@@ -39,7 +52,7 @@ export default function Landing() {
 							</p>
 						</div>
 						<div className="flex flex-col sm:flex-row gap-4">
-							<Button size="lg" className="bg-primary hover:bg-primary/90 text-lg h-12">
+							<Button size="lg" className="bg-primary hover:bg-primary/90 text-lg h-12" onClick={() => navigate('/dashboard')}>
 								Start Preparing <ArrowRight className="ml-2 w-5 h-5" />
 							</Button>
 							<Button size="lg" variant="outline" className="border-border hover:bg-muted/50 text-lg h-12">
@@ -64,26 +77,26 @@ export default function Landing() {
 					
 					{/* Hero Visual */}
 					<div className="relative h-96 md:h-full min-h-96">
-						<div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl backdrop-blur-sm border border-border/50 flex items-center justify-center p-8">
+						<div className="absolute inset-0 flex items-center justify-center rounded-3xl border border-border/50 bg-gradient-to-br from-primary/20 to-accent/20 p-8 backdrop-blur-sm">
 							<div className="space-y-6 w-full">
-								<div className="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20 space-y-4">
+								<div className="space-y-4 rounded-2xl border border-border/70 bg-card/60 p-6 backdrop-blur">
 									<div className="flex justify-between items-start">
 										<h3 className="font-semibold text-foreground">Exam Success Rate</h3>
 										<span className="text-primary font-bold text-lg">+85%</span>
 									</div>
 									<div className="space-y-3">
-										<div className="h-2 bg-white/10 rounded-full overflow-hidden">
+										<div className="h-2 overflow-hidden rounded-full bg-muted/80">
 											<div className="h-full w-4/5 bg-gradient-to-r from-primary to-accent rounded-full"></div>
 										</div>
 										<p className="text-xs text-foreground/60">Students passing with flying colors</p>
 									</div>
 								</div>
 								<div className="grid grid-cols-2 gap-4">
-									<div className="bg-white/10 backdrop-blur rounded-xl p-4 border border-white/20 text-center">
+									<div className="rounded-xl border border-border/70 bg-card/60 p-4 text-center backdrop-blur">
 										<p className="text-2xl font-bold text-primary">25K+</p>
 										<p className="text-xs text-foreground/60 mt-1">Active Learners</p>
 									</div>
-									<div className="bg-white/10 backdrop-blur rounded-xl p-4 border border-white/20 text-center">
+									<div className="rounded-xl border border-border/70 bg-card/60 p-4 text-center backdrop-blur">
 										<p className="text-2xl font-bold text-primary">10Y+</p>
 										<p className="text-xs text-foreground/60 mt-1">Question Archive</p>
 									</div>
@@ -170,22 +183,22 @@ export default function Landing() {
 
 			{/* CTA Section */}
 			<section id="cta" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
-				<div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/20 via-accent/10 to-primary/10 border border-border p-12 md:p-20">
-					<div className="absolute inset-0 bg-white/5 backdrop-blur-sm -z-10"></div>
+				<div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-primary/20 via-accent/10 to-primary/10 p-12 md:p-20">
+					<div className="absolute inset-0 -z-10 bg-card/20 backdrop-blur-sm"></div>
 					<div className="space-y-8 text-center max-w-2xl mx-auto">
 						<div className="space-y-4">
 							<h2 className="text-3xl md:text-4xl font-bold text-foreground text-balance">
 								Ready to Excel in Your Exams?
 							</h2>
 							<p className="text-lg text-foreground/70 text-balance">
-								Join thousands of successful students who trust Prep Hub for their exam preparation journey.
+								Join thousands of successful students who trust Prep-Hub for their exam preparation journey.
 							</p>
 						</div>
 						<div className="flex flex-col sm:flex-row gap-4 justify-center">
-							<Button size="lg" className="bg-primary hover:bg-primary/90 text-lg h-12 sm:w-auto">
+							<Button size="lg" className="bg-primary hover:bg-primary/90 text-lg h-12 sm:w-auto" onClick={() => navigate('/dashboard')}>
 								Start Your Journey <ArrowRight className="ml-2 w-5 h-5" />
 							</Button>
-							<Button size="lg" variant="outline" className="border-border hover:bg-white/10 text-lg h-12">
+							<Button size="lg" variant="outline" className="border-border hover:bg-muted/60 text-lg h-12">
 								Browse Free Resources
 							</Button>
 						</div>
@@ -233,9 +246,9 @@ export default function Landing() {
 					<div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center">
 						<div className="flex items-center gap-2 mb-4 md:mb-0">
 							<div className="w-6 h-6 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-sm">P</div>
-							<span className="font-semibold text-foreground">Prep Hub</span>
+							<span className="font-semibold text-foreground">Prep-Hub</span>
 						</div>
-						<p className="text-sm text-foreground/60">© 2024 Prep Hub. All rights reserved.</p>
+						<p className="text-sm text-foreground/60">© 2024 Prep-Hub. All rights reserved.</p>
 					</div>
 				</div>
 			</footer>

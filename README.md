@@ -1,8 +1,8 @@
-# Prep Hub
+# Prep-Hub
 
 ## A central hub for preparation.
 
-Prep Hub is a platform designed to help users prepare for exams by providing access to previous years' questions (PYQs) and other educational resources.
+Prep-Hub is a platform designed to help users prepare for exams by providing access to previous years' questions (PYQs) and other educational resources.
 
 ## Features
 

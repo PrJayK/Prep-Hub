@@ -2,7 +2,7 @@ import { Router } from 'express';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { UserGoogle } from '../db/db.js';
-import '../config/env.js';
+import env from '../config/env.js';
 
 const router = Router();
 
@@ -10,20 +10,40 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    clientID: env.GOOGLE_CLIENT_ID,
+    clientSecret: env.GOOGLE_CLIENT_SECRET,
     callbackURL: `/login/google/callback`,
     passReqToCallback: true
 	},
 	async (req, accessToken, refreshToken, profile, done) => {
-        const existingUser = await UserGoogle.findOne({profile_id: profile.id});
-        if(!existingUser) {
+        const profileId = String(profile.id);
+        const email = profile.emails?.[0]?.value?.toLowerCase() || null;
+        const existingUser = await UserGoogle.findOne({ profileId: profileId });
+
+        if (!existingUser) {
             await UserGoogle.create({
-                profile_id: profile.id,
+                profileId: profileId,
+                email,
                 name: profile.displayName,
+                role: "user",
                 enrolledCourses: []
             });
+        } else {
+            const updates = {};
+
+            if (existingUser.name !== profile.displayName) {
+                updates.name = profile.displayName;
+            }
+
+            if (email && existingUser.email !== email) {
+                updates.email = email;
+            }
+
+            if (Object.keys(updates).length > 0) {
+                await UserGoogle.updateOne({ _id: existingUser._id }, { $set: updates });
+            }
         }
+
         return done(null, profile);
     }
 ));
@@ -54,7 +74,7 @@ router.get('/callback',
 );
 
 router.get('/callbackSuccess',(req, res) => {
-    res.redirect(`${process.env.FrontendUrl}/dashboard`);
+    res.redirect(`${env.FRONTEND_URL}/dashboard`);
 });
 
 export default router;

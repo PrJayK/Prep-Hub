@@ -1,5 +1,5 @@
 import { Chroma } from "@langchain/community/vectorstores/chroma";
-import { embedder } from "../llm/embedder.js";
+import { embedder } from "../../config/embedder.config.js";
 
 let vectorStore;
 

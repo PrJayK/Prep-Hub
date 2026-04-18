@@ -1,18 +1,11 @@
-import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { Router } from "express";
 import { isLoggedIn } from "../middleware/auth.js";
+import { BUCKET, s3Client } from "../config/aws.config.js";
 import "../config/env.js";
 
 const router = Router();
-
-const s3Client = new S3Client({
-    region: "ap-south-1",
-    credentials: {
-        accessKeyId: process.env.AWSAccessKeyId,
-        secretAccessKey: process.env.AWSSecretAccessKey
-    }
-})
 
 router.post('/getObjectUrl', isLoggedIn, async (req, res) => {
     const { key } = req.body;
@@ -24,65 +17,44 @@ router.post('/getObjectUrl', isLoggedIn, async (req, res) => {
     }
 
     const command = new GetObjectCommand({
-        Bucket: "prephub-dev",
+        Bucket: BUCKET,
         Key: key
     });
 
-    const url = await getSignedUrl(s3Client, command, { expiresIn: 20 });
+    const url = await getSignedUrl(s3Client, command, { expiresIn: 300 });
     
     res.json({
         url: url
     });
 });
 
-router.post('/putObjectUrl', isLoggedIn, async (req, res) => {
-    const { fileName, fileType } = req.body;
+async function getObjectBuffer(key) {
+    const command = new GetObjectCommand({
+        Bucket: BUCKET,
+        Key: key
+    });
 
-    if(!fileName || !fileType) {
-        return res.status(400).json({
-            message: "invalid inputs"
-        });
+    const response = await s3Client.send(command);
+    const body = response.Body;
+
+    if (!body) {
+        throw new Error(`S3 object ${key} returned empty body`);
     }
 
-    const uploadDir = 'userUploads/';
-
-    const key = uploadDir + Date.now() + fileName;
-    
-    const command = new PutObjectCommand({
-        Bucket: 'prephub-dev',
-        Key: key,
-        ContentType: fileType
-    });
-
-    const url = await getSignedUrl(s3Client, command);
-
-    res.json({
-        url: url,
-        key: key
-    });
-});
-
-router.post('deleteObjectUrl', isLoggedIn, async (req, res) => {
-    const { key } = req.body;
-    
-    if(!key) {
-        return res.status(400).json({
-            message: "key not found"
-        });
+    if (Buffer.isBuffer(body)) {
+        return body;
     }
 
-    const command = new DeleteObjectCommand({
-        Bucket: 'prephub-dev',
-        key: key,
-    });
+    if (body instanceof Uint8Array) {
+        return Buffer.from(body);
+    }
 
-    s3Client.send(command)
-        .then(data => {
-            res.sendStatus(200);
-        })
-        .catch(err => {
-            res.json({message: 'Error deleting object'}).status(400);
-        });
-});
+    const chunks = [];
+    for await (const chunk of body) {
+        chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
+    }
 
-export { router as awsRouter };
+    return Buffer.concat(chunks);
+}
+
+export { router as awsRouter, s3Client, getObjectBuffer };

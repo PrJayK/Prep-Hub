@@ -1,7 +1,5 @@
+import { BookOpen, GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-import school from "../../assets/school.svg";
-import lib_books from "../../assets/lib-books.svg";
 
 const EnrolledPane = (args) => {
 	const handleCourseOnClick = (courseId) => {
@@ -20,7 +18,9 @@ const EnrolledPane = (args) => {
 			)}
 		>
 			<div className="flex h-14 shrink-0 items-center gap-3 border-b border-border px-4">
-				<img className="h-6 w-6 opacity-70" src={school} alt="" />
+				<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
+					<GraduationCap className="h-6 w-6" strokeWidth={1.5} />
+				</div>
 				<div className="text-sm font-semibold text-foreground">
 					Enrolled courses
 				</div>
@@ -36,12 +36,10 @@ const EnrolledPane = (args) => {
 						)}
 						onClick={() => handleCourseOnClick(course.id)}
 					>
-						<img
-							className="h-6 w-6 shrink-0 opacity-70"
-							src={lib_books}
-							alt=""
-						/>
-						<div className="min-w-0 truncate font-medium">{course.id}</div>
+						<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
+							<BookOpen className="h-4 w-4" strokeWidth={1.5} />
+						</div>
+						<div className="min-w-0 truncate font-medium">{course.id} - {course.name}</div>
 					</li>
 				))}
 			</ul>

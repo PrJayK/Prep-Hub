@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Plus } from "lucide-react";
-
+import { GraduationCap, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-import lib_books from "../../assets/lib-books.svg";
+import { useToast } from "@/components/ui/toast-provider";
 import { BACKEND_URL } from "@/config/env";
 
 const fieldClass =
 	"w-full rounded-xl border border-input bg-background px-4 py-3 text-sm text-foreground shadow-sm ring-offset-background transition-[color,box-shadow] placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
 
 const AddCoursePane = (args) => {
+	const { toast } = useToast();
 	const [queriedCourses, setQueriedCourses] = useState([]);
 	const [courseQuery, setCourseQuery] = useState({
 		course_query: "",
@@ -34,29 +33,39 @@ const AddCoursePane = (args) => {
 				setQueriedCourses(res.data);
 			})
 			.catch(() => {
-				alert("An error occured. Couldn't query for courses.");
+				toast({
+					title: "Couldn't load courses",
+					description: "We couldn't query available courses right now.",
+				});
 			});
 	}, [courseQuery]);
 
 	const handleAddCourseButtonOnClick = (_id) => {
 		axios
 			.post(
-				`/api/addToEnrolledCourses`,
+				`${BACKEND_URL}/api/addToEnrolledCourses`,
 				{ _id },
-				{
-					withCredentials: true,
-				}
+				{ withCredentials: true }
 			)
 			.then((res) => {
 				if (res.data.message) {
-					alert("Course is already enrolled in.");
+					toast({
+						title: "Already enrolled",
+						description: "This course is already in your enrollments.",
+					});
 				} else {
 					args.setEnrolledCourses([...args.enrolledCourses, res.data]);
-					alert("Course added!");
+					toast({
+						title: "Course added",
+						description: `${res.data.name || "The course"} is now in your enrollments.`,
+					});
 				}
 			})
 			.catch(() => {
-				alert("An error occured. Couldn't complete request.");
+				toast({
+					title: "Couldn't add course",
+					description: "We couldn't complete that request right now.",
+				});
 			});
 	};
 
@@ -150,9 +159,7 @@ const AddCoursePane = (args) => {
 								<option value="branch">Any branch</option>
 								<option value="CSE">Computer Science and Engineering</option>
 								<option value="DS">Computer Science Data Science</option>
-								<option value="ECE">
-									Electronics and Communications Engineering
-								</option>
+								<option value="ECE">Electronics and Communications Engineering</option>
 								<option value="EE">Electrical Engineering</option>
 								<option value="ME">Mechanical Engineering</option>
 								<option value="CE">Civil Engineering</option>
@@ -174,10 +181,10 @@ const AddCoursePane = (args) => {
 							<div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
 								<div className="flex min-w-0 items-center gap-3">
 									<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 transition group-hover:bg-primary/20">
-										<img
-											className="h-6 w-6 opacity-80"
-											src={lib_books}
-											alt=""
+										<GraduationCap
+											className="h-6 w-6 text-primary/80"
+											strokeWidth={1.75}
+											aria-hidden="true"
 										/>
 									</div>
 									<div className="truncate font-semibold text-foreground">

@@ -21,12 +21,17 @@ router.use('/api', apiRouter);
 // });
 
 router.get('/logout', (req, res) => {
+    if (typeof req.logout === 'function') {
+        req.logout();
+    }
+
     req.session.destroy(err => {
         if (err) {
             console.error('Error destroying session:', err);
             return res.status(500).send('Error logging out');
         }
-        return res.redirect('/login/google');
+
+        return res.sendStatus(200);
     });
 });
 
