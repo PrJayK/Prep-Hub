@@ -131,11 +131,11 @@ async function executeRAGWithoutContext(query, userInfo, options = {}) {
 	//console.log("RAG without context | contextStrength:", contextStrength);
 
 	const prompt = await getPromptForGeneralContext(queryText, resourceContext, contextStrength, userInfo, query.conversationId);
-	console.log(prompt);
+	// console.log(prompt);
 	const response = await llm.invoke(prompt);
-	console.log("typeof response.content:", typeof response.content);
-	console.log("raw content value:", response.content);
-	console.log("json-stringified content:", JSON.stringify(response.content));
+	// console.log("typeof response.content:", typeof response.content);
+	// console.log("raw content value:", response.content);
+	// console.log("json-stringified content:", JSON.stringify(response.content));
 
 	return parseAndValidateRAGResponse(response, citationRegistry);	
 }

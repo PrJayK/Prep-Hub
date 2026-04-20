@@ -358,7 +358,6 @@ const MainContent = (args) => {
 															</div>
 														</div>
 													) : null}
-													{console.log(resource)}
 													{resource.dataType === "application/pdf" ? (
 														<div
 															className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-border bg-card p-4 shadow-sm transition-all duration-300 hover:border-primary/45 hover:shadow-md"
