@@ -12,7 +12,7 @@ router.use(passport.session());
 passport.use(new GoogleStrategy({
     clientID: env.GOOGLE_CLIENT_ID,
     clientSecret: env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `/login/google/callback`,
+    callbackURL: `${env.BACKEND_URL}/login/google/callback`,
     passReqToCallback: true
 	},
 	async (req, accessToken, refreshToken, profile, done) => {
