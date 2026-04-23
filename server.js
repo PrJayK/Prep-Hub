@@ -10,24 +10,41 @@ import { ingestionWorker } from './server/workers/sqs.worker.js';
 const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173", // if using Vite
+  "https://prep-hub.onrender.com"
+];
+
 app.use(cors({
-    origin: true,
-    credentials: true
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true
 }));
 
+const isProd = process.env.NODE_ENV === "production";
+
 app.use(session({
-	secret: env.SESSION_SECRET, 
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-        mongoUrl: env.MONGO_URL,
-        collection: 'sessions'
-    }),
-    cookie: {
-        secure: true,
-        sameSite: "none",
-        maxAge: 1000 * 60 * 60 * 24 * 30
-    }
+  secret: env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: env.MONGO_URL,
+    collection: 'sessions'
+  }),
+  cookie: {
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
+    maxAge: 1000 * 60 * 60 * 24 * 30
+  }
 }));
 
 app.use('/', homeRouter);
