@@ -11,6 +11,8 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.set("trust proxy", 1);
+
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173", // if using Vite
@@ -30,7 +32,7 @@ app.use(cors({
   credentials: true
 }));
 
-const isProd = process.env.NODE_ENV === "production";
+const isProd = env.NODE_ENV === "production";
 
 app.use(session({
   secret: env.SESSION_SECRET,
