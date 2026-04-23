@@ -18,8 +18,7 @@
     "mongoose": "^8.2.1",
     "officeparser": "^6.0.4",
     "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0",
-    "pdf-parse": "^1.1.4"
+    "passport-google-oauth20": "^2.0.0"
   },
   "name": "prep-hub",
   "description": "A central hub for preparation.",
