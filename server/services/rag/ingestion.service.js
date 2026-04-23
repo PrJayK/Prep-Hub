@@ -36,7 +36,10 @@ async function ingestResource(resource) {
             throw new Error("No chunks generated from resource");
         }
 
-        await embedAndStore(chunks);
+        const batchSize = 300;
+        for (let index = 0; index < chunks.length; index += batchSize) {
+            await embedAndStore(chunks.slice(index, index + batchSize));
+        }
 
         await Resource.findByIdAndUpdate(resource._id, {
             isEmbedded: true
