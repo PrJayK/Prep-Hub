@@ -46,7 +46,7 @@ function buildSearchResult(chunk, score, courseId, resourceMap, courseMap) {
     };
 }
 
-router.get('/search', isLoggedIn, async (req, res) => {
+router.get('/', isLoggedIn, async (req, res) => {
     const searchQuery = typeof req.query.q === 'string' ? req.query.q.trim() : '';
 
     if (!searchQuery) {

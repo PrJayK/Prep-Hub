@@ -498,6 +498,11 @@ const Chatbot = ({
 										<ReactMarkdown
 											remarkPlugins={[remarkGfm]}
 											rehypePlugins={[rehypeHighlight]}
+											components={{
+												strong: ({ ...props }) => (
+													<strong className="font-semibold text-foreground" {...props} />
+												),
+											}}
 										>
 											{messageItem.text}
 										</ReactMarkdown>
