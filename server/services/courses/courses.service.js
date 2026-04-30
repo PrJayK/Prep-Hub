@@ -1,5 +1,11 @@
 import { Course, UserGoogle } from "../../db/db.js";
 
+function createHttpError(message, statusCode = 500) {
+    const error = new Error(message);
+    error.statusCode = statusCode;
+    return error;
+}
+
 async function getEnrolledCoursesForUser(profileId) {
     
     const existingUser = await UserGoogle.findOne({ profileId })
@@ -51,19 +57,20 @@ async function enrollCourse(profileId, courseId) {
     const existingCourse = await Course.findById(courseId);
 
     if(!existingUser || !existingCourse) {
-        return res.sendStatus(404);
+        throw createHttpError("User or course not found.", 404);
     }
 
-    if(existingUser.enrolledCourses.find((id) => id == courseId)){
-        return res.json({message: "Course already enrolled in."});
+    if(existingUser.enrolledCourses.some((id) => id.toString() === courseId.toString())){
+        return { alreadyEnrolled: true, course: existingCourse };
     }
 
     const updatedUser = await UserGoogle.findOneAndUpdate(
         { profileId: profileId },
-        { $push: { enrolledCourses: existingCourse._id } },
+        { $addToSet: { enrolledCourses: existingCourse._id } },
         { new: true }
     );
-    return [updatedUser, existingCourse];
+
+    return { updatedUser, course: existingCourse, alreadyEnrolled: false };
 }
 
 async function getAllResourcesForIngestion() {

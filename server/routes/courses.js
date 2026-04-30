@@ -58,13 +58,22 @@ router.post('/addToEnrolledCourses', isLoggedIn, async (req, res) => {
         return res.sendStatus(404);
     }
 
-    const [updatedUser, existingCourse] = await enrollCourse(profileId, _id);
+    try {
+        const { updatedUser, course, alreadyEnrolled } = await enrollCourse(profileId, _id);
 
-    if (!updatedUser) {
-        return res.sendStatus(401);
+        if (alreadyEnrolled) {
+            return res.json({ message: "Course already enrolled in." });
+        }
+
+        if (!updatedUser) {
+            return res.sendStatus(401);
+        }
+
+        return res.json(course);
+    } catch (error) {
+        const statusCode = error.statusCode || 500;
+        return res.status(statusCode).json({ message: error.message });
     }
-
-    res.json(existingCourse);
 });
 
 export default router;
