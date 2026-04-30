@@ -29,6 +29,12 @@ const INITIAL_MESSAGES = [
 	},
 ];
 
+const markdownComponents = {
+	strong: ({ node, ...props }) => (
+		<strong className="font-semibold text-foreground" {...props} />
+	),
+};
+
 const getConversationId = (conversation) =>
 	conversation?.conversationId ?? conversation?._id ?? conversation?.id ?? null;
 
@@ -494,15 +500,11 @@ const Chatbot = ({
 						>
 							{messageItem.author === "AI" ? (
 								<div className="space-y-3">
-									<div className="prose prose-sm max-w-none text-foreground">
+									<div className="prose prose-sm max-w-none text-foreground prose-headings:text-foreground prose-strong:text-foreground">
 										<ReactMarkdown
 											remarkPlugins={[remarkGfm]}
 											rehypePlugins={[rehypeHighlight]}
-											components={{
-												strong: ({ ...props }) => (
-													<strong className="font-semibold text-foreground" {...props} />
-												),
-											}}
+											components={markdownComponents}
 										>
 											{messageItem.text}
 										</ReactMarkdown>
